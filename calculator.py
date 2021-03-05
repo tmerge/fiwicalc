@@ -16,6 +16,8 @@ def calcVT(a, i, t):
     if t <= 0: 
         print("period of time is to short")
         return 0
+        # loop over all parts of payments and calc based on formula
+        # formula: SUM t=0 til T of [at * 1^T-t]
     for value in a:
         vt += value * q**(t - counter)
         counter += 1
