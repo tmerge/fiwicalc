@@ -2,7 +2,6 @@
 
 import argparse
 import numpy
-import math
 
 # function to calc end value
 def calcVT(a, i, t):
@@ -16,22 +15,41 @@ def calcVT(a, i, t):
     if t <= 0: 
         print("period of time is to short")
         return 0
-        # loop over all parts of payments and calc based on formula
-        # formula: SUM t=0 til T of [at * 1^T-t]
+    # loop over all parts of payments and calc based on formula
+    # formula: SUM t=0 til T of [at * 1^T-t]
     for value in a:
         vt += value * q**(t - counter)
         counter += 1
     return numpy.round_(vt, 4)
 
+def calcV0(a, i, t):
+    a = numpy.array(a)
+    v0 = 0
+    q = float(1 + (i/100))
+    print(q)
+    counter = 0
+    if len(a) <= 0:
+        print("series of payment is empty")
+        return 0
+    if t <= 0: 
+        print("period of time is to short")
+        return 0
+    # loop over all parts of payments and calc based on formula
+    # formula: SUM t=0 til T of [at * 1^-t]
+    for value in a:
+        v0 += value * q**(-t)
+        t += 1
+        counter += 1
+    return numpy.round_(v0, 4)
 
 def main(args):
     # check what value user is looking for
-    if args.vt != None:
+    if args.vt == True and args.v0 == False:
         resultVT = calcVT(args.a, args.i, args.t)
         print(f"Result for VT: {resultVT}")
-    elif args.v0 != None:
-        # TODO: implement calculation of present value
-        print("calc v0")
+    elif args.v0 == True and args.vt == False:
+        resultV0 = calcV0(args.a, args.i, args.t)
+        print(f"Result for VT: {resultV0}")
 
 
 
