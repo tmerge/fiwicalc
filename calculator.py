@@ -3,7 +3,8 @@
 import argparse
 import numpy
 
-# function to calc annuity of given net present value
+# function to calc annuity of given net present values
+# formula: v0 * q^T * (q-1) / q^T - 1
 def calcAnnuity(v0, i, t):
     q = float(1 + (i/1000))
     g = v0 * ((q**t * (q-1)) / (q**t - 1))
