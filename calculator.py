@@ -3,6 +3,13 @@
 import argparse
 import numpy
 
+# function to calc annuity of given net present value
+def calcAnnuity(v0, i, t):
+    q = float(1 + (i/1000))
+    g = v0 * ((q**t * (q-1)) / (q**t - 1))
+    return numpy.round_(g, 4)
+
+
 # function to calc end value
 def calcVT(a, i, t):
     a = numpy.array(a)
@@ -50,6 +57,9 @@ def main(args):
     elif args.v0 == True and args.vt == False:
         resultV0 = calcV0(args.a, args.i, args.t)
         print(f"Result for VT: {resultV0}")
+    elif args.g == True:
+        resultG = calcAnnuity(calcV0(args.a, args.i, args.t), args.i, args.t)
+        print(f"Result for equivalent annuity: {resultG}")
 
 
 
@@ -58,11 +68,13 @@ if __name__ == "__main__":
     # consts
     vt = False
     v0 = False
+    g = False
 
     # inital parser
     parser = argparse.ArgumentParser(description="Fiwi key figures calucaltion")
     parser.add_argument("-vt", help="calculate end value", action="store_const", default=vt, const=not(vt))
-    parser.add_argument("-v0", help="calcualte net present value", action="store_const", default=v0, const=not(v0))
+    parser.add_argument("-v0", help="calculate net present value", action="store_const", default=v0, const=not(v0))
+    parser.add_argument("-g", help="calculate equivanlent annuity", action="store_const", default=g, const=not(g))
     parser.add_argument("-a", help="set series of payment", nargs="+", type=float)
     parser.add_argument("-i", help="set interest rate", type=float)
     parser.add_argument("-t", help="set period", type=float)
