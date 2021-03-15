@@ -34,7 +34,6 @@ def calcV0(a, i, t):
     a = numpy.array(a)
     v0 = 0
     q = float(1 + (i/100))
-    print(q)
     counter = 0
     if len(a) <= 0:
         print("series of payment is empty")
